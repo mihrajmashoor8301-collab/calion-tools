@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { ALL_TOOLS } from '../src/ui/layout';
 
 describe('UI: Tool Modules Contract & Metadata', () => {
-  it('contains exactly 13 registered tool modules', () => {
-    assert.equal(ALL_TOOLS.length, 13);
+  it('contains exactly 14 registered tool modules', () => {
+    assert.equal(ALL_TOOLS.length, 14);
   });
 
   it('ensures each tool module has unique id, title, description, and valid category', () => {
@@ -43,7 +43,8 @@ describe('UI: Tool Modules Contract & Metadata', () => {
       'timestamp',
       'regex',
       'ports',
-      'nmap-builder'
+      'nmap-builder',
+      'payloads'
     ];
 
     const actualIds = ALL_TOOLS.map((t) => t.id);

@@ -12,6 +12,7 @@ import { timestampTool } from './tools/timestamp-tool';
 import { regexTool } from './tools/regex-tool';
 import { portsTool } from './tools/ports-tool';
 import { nmapTool } from './tools/nmap-tool';
+import { payloadsTool } from './tools/payloads-tool';
 
 export const ALL_TOOLS: ToolModule[] = [
   encoderTool,
@@ -26,7 +27,8 @@ export const ALL_TOOLS: ToolModule[] = [
   timestampTool,
   regexTool,
   portsTool,
-  nmapTool
+  nmapTool,
+  payloadsTool
 ];
 
 export function initApp(root: HTMLElement): void {
