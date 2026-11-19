@@ -33,28 +33,42 @@ export const ALL_TOOLS: ToolModule[] = [
 
 export function initApp(root: HTMLElement): void {
   root.innerHTML = `
-    <!-- Top Header -->
+    <!-- CALION Academy Ecosystem Header -->
     <header class="app-header">
       <div class="brand-section">
-        <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
+        <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Tools Navigation" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
-        <div class="brand-logo">
-          <svg viewBox="0 0 32 32" width="24" height="24">
-            <rect width="32" height="32" rx="6" fill="#131b2e" stroke="#1e293b" stroke-width="1.5"/>
-            <path d="M8 11 L13 16 L8 21" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <line x1="16" y1="21" x2="24" y2="21" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+        <a class="brand-home" href="https://learning.endlessus.in/learning" aria-label="CALION Academy">
+          <svg viewBox="0 0 400 100" role="img" aria-label="CALION">
+            <defs><linearGradient id="calion-tools-gradient" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#00F0FF"></stop><stop offset="50%" stop-color="#0284C7"></stop><stop offset="100%" stop-color="#6366F1"></stop></linearGradient></defs>
+            <g transform="translate(10, 10)">
+              <path d="M 55 10 L 25 10 L 10 25 L 10 55 L 25 70 L 55 70" stroke="url(#calion-tools-gradient)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" fill="none"></path>
+              <path d="M 42 70 L 42 22 L 58 22 L 68 70" stroke="var(--text-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" fill="none"></path>
+              <path d="M 33 46 L 56 46" stroke="url(#calion-tools-gradient)" stroke-linecap="round" stroke-width="4.5" fill="none"></path>
+              <circle cx="55" cy="10" fill="#00F0FF" r="3.5"></circle><circle cx="25" cy="70" fill="#6366F1" r="3"></circle><circle cx="42" cy="22" fill="var(--text-primary)" r="2.5"></circle>
+            </g>
+            <text class="brand-logo-word" x="100" y="58">CALION</text>
+            <rect fill="#00F0FF" height="6" rx="1.5" width="6" x="362" y="38"></rect><rect fill="#6366F1" height="6" rx="1.5" width="6" x="362" y="48"></rect>
           </svg>
-        </div>
-        <div class="brand-title">CALION <span>Tools</span></div>
-        <span class="badge-tag">v1.0</span>
+        </a>
+        <span class="brand-tag">Tools</span>
       </div>
+
+      <nav class="ecosystem-links" aria-label="CALION Platforms">
+        <a href="https://learning.endlessus.in/learning">Academy</a>
+        <a href="https://learning.endlessus.in/terminal-lab.html" class="terminal-link">Terminal</a>
+      </nav>
 
       <div class="header-actions">
         <div class="badge-privacy">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Zero Server Tracking
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 4 10 8 10z"></path></svg>
+          Runs locally
         </div>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+          <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+          <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.5 14.2A8.7 8.7 0 0 1 9.8 3.5 8.8 8.8 0 1 0 20.5 14.2Z"></path></svg>
+        </button>
       </div>
     </header>
 
@@ -82,6 +96,14 @@ export function initApp(root: HTMLElement): void {
         <div id="workspace-content"></div>
       </main>
     </div>
+    <footer class="app-footer">
+      <span>CALION Tools · Private, browser-based utilities</span>
+      <nav class="app-footer-links" aria-label="CALION Platforms">
+        <a href="https://learning.endlessus.in/learning">Academy</a>
+        <a href="https://learning.endlessus.in/terminal-lab.html">Terminal</a>
+        <a href="https://payloads.endlessus.in">Payload Hub</a>
+      </nav>
+    </footer>
   `;
 
   const sidebarNav = root.querySelector('#sidebar-nav') as HTMLElement;
@@ -91,17 +113,46 @@ export function initApp(root: HTMLElement): void {
   const mobileToggle = root.querySelector('#mobile-toggle') as HTMLButtonElement;
   const sidebar = root.querySelector('#app-sidebar') as HTMLElement;
   const backdrop = root.querySelector('#sidebar-backdrop') as HTMLElement;
+  const themeToggle = root.querySelector('#theme-toggle') as HTMLButtonElement;
+
+  function applyTheme(theme: 'light' | 'dark', persist: boolean): void {
+    const isDark = theme === 'dark';
+    document.documentElement.classList.toggle('dark', isDark);
+    themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+    themeToggle.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+    themeToggle.setAttribute('aria-pressed', String(isDark));
+    if (persist) {
+      localStorage.setItem('calion_theme', theme);
+      localStorage.setItem('endlessus_learning_theme', isDark ? 'hacker' : 'normal');
+    }
+  }
+
+  const storedTheme = localStorage.getItem('calion_theme') || localStorage.getItem('endlessus_learning_theme');
+  const initialTheme = storedTheme === 'dark' || storedTheme === 'hacker'
+    ? 'dark'
+    : storedTheme === 'light' || storedTheme === 'normal' || storedTheme === 'soft'
+      ? 'light'
+      : (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(initialTheme, false);
+  themeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark', true));
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'calion_theme' || event.key === 'endlessus_learning_theme') {
+      applyTheme(event.newValue === 'dark' || event.newValue === 'hacker' ? 'dark' : 'light', false);
+    }
+  });
 
   let currentToolId = window.location.hash.replace('#', '') || 'encoders';
 
   function closeMobileNav(): void {
     sidebar.classList.remove('open');
     backdrop.classList.remove('open');
+    mobileToggle.setAttribute('aria-expanded', 'false');
   }
 
   mobileToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
+    const isOpen = sidebar.classList.toggle('open');
     backdrop.classList.toggle('open');
+    mobileToggle.setAttribute('aria-expanded', String(isOpen));
   });
 
   backdrop.addEventListener('click', closeMobileNav);
