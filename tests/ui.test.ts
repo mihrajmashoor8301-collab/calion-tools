@@ -67,6 +67,8 @@ describe('UI: Tool Modules Contract & Metadata', () => {
   });
 
   it('defaults to Academy light colors and supports the matching dark theme', () => {
+    assert.match(layoutSource, /:\s*'light';\s*\n\s*applyTheme\(initialTheme, false\)/);
+    assert.doesNotMatch(layoutSource, /prefers-color-scheme/);
     assert.match(stylesSource, /--bg-primary:\s*#f8faff/i);
     assert.match(stylesSource, /--accent-cyan:\s*#0284c7/i);
     assert.match(stylesSource, /html\.dark\s*\{/);

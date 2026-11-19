@@ -132,7 +132,7 @@ export function initApp(root: HTMLElement): void {
     ? 'dark'
     : storedTheme === 'light' || storedTheme === 'normal' || storedTheme === 'soft'
       ? 'light'
-      : (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      : 'light';
   applyTheme(initialTheme, false);
   themeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark', true));
   window.addEventListener('storage', (event) => {
